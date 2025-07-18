@@ -1425,7 +1425,11 @@ class RegionSet(object):
         bits_per_value = (len(long_array) * 64) / n
         if bits_per_value < 4 or 12 < bits_per_value:
             raise nbt.CorruptChunkError()
-        b = numpy.frombuffer(numpy.asarray(long_array, dtype=numpy.uint64), dtype=numpy.uint8)
+        # Packed array were parsed fron NBT as int64_t.
+        # A cast is required to retrieve an unsigned array.
+        b = numpy.frombuffer(
+            numpy.asarray(long_array, dtype=numpy.int64, copy=True).astype(numpy.uint64, casting='unsafe'),
+            dtype=numpy.uint8)
         # give room for work, later
         b = b.astype(numpy.uint16)
         if bits_per_value == 8:
@@ -1491,7 +1495,9 @@ class RegionSet(object):
     def _packed_longarray_to_shorts_v116(self, long_array, n, num_palette):
         bits_per_value = max(4, (len(long_array) * 64) // n)
 
-        b = numpy.asarray(long_array, dtype=numpy.uint64)
+        # Packed array were parsed fron NBT as int64_t.
+        # A cast is required to retrieve an unsigned array.
+        b = numpy.asarray(long_array, dtype=numpy.int64, copy=True).astype(numpy.uint64, casting='unsafe')
         result = numpy.zeros((n,), dtype=numpy.uint16)
         shorts_per_long = 64 // bits_per_value
         mask = (1 << bits_per_value) - 1
