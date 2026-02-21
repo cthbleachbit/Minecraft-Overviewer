@@ -5,8 +5,8 @@ import traceback
 
 
 # quick version check
-if sys.version_info[0] == 2 or (sys.version_info[0] == 3 and sys.version_info[1] < 4):
-    print("Sorry, the Overviewer requires at least Python 3.4 to run.")
+if sys.version_info[0] == 2 or (sys.version_info[0] == 3 and sys.version_info[1] < 14):
+    print("Sorry, the Overviewer requires at least Python 3.14 to run.")
     sys.exit(1)
 
 

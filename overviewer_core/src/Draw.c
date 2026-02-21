@@ -659,8 +659,10 @@ int32_t ImagingDrawLine(Imaging im, int32_t x0, int32_t y0, int32_t x1, int32_t 
     return 0;
 }
 
+// FIXME: python3.14 Imaging.h
+//        Additional unused argument `mask`.
 int32_t ImagingDrawWideLine(Imaging im, int32_t x0, int32_t y0, int32_t x1, int32_t y1,
-                            const void* ink_, int32_t width, int32_t op) {
+                            const void* ink_, int32_t width, int32_t op, Imaging mask) {
     DRAW* draw;
     INT32 ink;
 
